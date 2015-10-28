@@ -1,0 +1,20 @@
+static public String convertToCacheName(String url){
+    try {
+        MessageDigest digest=MessageDigest.getInstance("MD5");
+        digest.update(url.getBytes());
+        byte[] b=digest.digest();
+        BigInteger bi=new BigInteger(b);
+        return "mycache_"+bi.toString(16)+".cac";
+    } catch (Exception e) {
+        Log.e("MD5", e.toString());
+        return null;
+    }
+}
+
+private static boolean tooOld(long time){
+    long now=new Date().getTime();
+    long diff=now-time;
+    if(diff>1000*60*5) // 5 minutes
+        return true;
+    return false;
+}
